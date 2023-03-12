@@ -34,10 +34,13 @@ def check_ip(ip):
         r = json.loads(requests.get(
             f"https://api.seon.io/SeonRestService/ip-api/v1.1/{ip.strip()}", headers=headers).text)
         data = r['data']
-        if data['web_proxy'] or data['public_proxy']:
-            return "PROXY"
+        if data:
+            if bool(data['web_proxy']) or bool(data['public_proxy']):
+                return "PROXY"
+            else:
+                return "NOT PROXY"
         else:
-            return "NOT PROXY"
+            return "Please enter correct IP"
     except:
         "An error occurred while processing the request"
 
